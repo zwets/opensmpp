@@ -223,7 +223,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.9</version>
+				<version>3.3.0</version>
 				<configuration>
 					<encoding>UTF-8</encoding>
                <!-- Java 8 became stricter, and fails builds if it finds invalid Javadoc . Disable: -->
