@@ -10,9 +10,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.smpp.Data;
-import org.smpp.util.ByteBuffer;
-import org.smpp.util.NotEnoughDataInByteBufferException;
-import org.smpp.util.TerminatingZeroNotFoundException;
 
 public class ByteBufferTest {
 
@@ -56,7 +53,7 @@ public class ByteBufferTest {
 		assertEquals((short) 0x7f, bufferOf((byte) 0x7f).removeByte());
 		assertEquals((short) -128, bufferOf((byte) 0x80).removeByte());
 		assertEquals((short) -1, bufferOf((byte) 0xff).removeByte());
-		
+
 		// ...which removeUnsignedByte() provides a solution for:
 		assertEquals((short) 0x7f, bufferOf((byte) 0x7f).removeUnsignedByte());
 		assertEquals((short) 0x80, bufferOf((byte) 0x80).removeUnsignedByte());

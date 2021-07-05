@@ -11,8 +11,7 @@
 package org.smpp.pdu;
 
 import org.smpp.Data;
-import org.smpp.pdu.Request;
-import org.smpp.pdu.ValueNotSetException;
+
 import org.smpp.pdu.tlv.*;
 import org.smpp.util.*;
 

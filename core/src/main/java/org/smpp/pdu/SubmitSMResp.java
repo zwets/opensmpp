@@ -11,7 +11,6 @@
 package org.smpp.pdu;
 
 import org.smpp.Data;
-import org.smpp.pdu.Response;
 import org.smpp.util.*;
 
 /**

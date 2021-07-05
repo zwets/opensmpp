@@ -13,8 +13,6 @@ package org.smpp.pdu;
 import java.io.UnsupportedEncodingException;
 
 import org.smpp.Data;
-import org.smpp.pdu.Request;
-import org.smpp.pdu.ValueNotSetException;
 import org.smpp.pdu.tlv.*;
 import org.smpp.util.*;
 
@@ -594,7 +592,7 @@ public class SubmitSM extends Request {
 }
 /*
  * $Log: not supported by cvs2svn $
- * 
+ *
  * Old changelog:
  * 31-10-01 ticp@logica.com message length now stored and returned as short to
  *						    accomodate the lengths > 127 (they're stored as
