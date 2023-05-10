@@ -12,7 +12,6 @@ package org.smpp.pdu.tlv;
 
 import org.smpp.pdu.ByteData;
 import org.smpp.pdu.ValueNotSetException;
-import org.smpp.pdu.tlv.WrongLengthException;
 import org.smpp.util.ByteBuffer;
 import org.smpp.util.NotEnoughDataInByteBufferException;
 
@@ -142,7 +141,7 @@ public abstract class TLV extends ByteData {
 
 	/**
 	 * Overwrites <code>ByteData</code>'s <code>setData</code> and parses
-	 * tag, length and the binary data value from the buffer. For parsing the 
+	 * tag, length and the binary data value from the buffer. For parsing the
 	 * data value calls abstract <code>setValueData</code>.
 	 */
 	public void setData(ByteBuffer buffer) throws NotEnoughDataInByteBufferException, TLVException {
@@ -262,7 +261,7 @@ public abstract class TLV extends ByteData {
 }
 /*
  * $Log: not supported by cvs2svn $
- * 
+ *
  * Old changelog:
  * 02-10-01 ticp@logica.com comments added, indentation changed -> spaces
  * 02-10-01 ticp@logica.com removed some historical unused code

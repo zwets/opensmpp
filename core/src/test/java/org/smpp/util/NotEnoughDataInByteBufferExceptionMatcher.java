@@ -2,7 +2,6 @@ package org.smpp.util;
 
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeMatcher;
-import org.smpp.util.NotEnoughDataInByteBufferException;
 
 public class NotEnoughDataInByteBufferExceptionMatcher extends TypeSafeMatcher<NotEnoughDataInByteBufferException>{
 

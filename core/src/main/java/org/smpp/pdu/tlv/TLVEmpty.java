@@ -11,7 +11,6 @@
 package org.smpp.pdu.tlv;
 
 import org.smpp.pdu.ValueNotSetException;
-import org.smpp.pdu.tlv.WrongLengthException;
 import org.smpp.util.ByteBuffer;
 
 /**

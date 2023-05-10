@@ -13,168 +13,168 @@ import java.util.logging.Logger;
 /**
  * A Charset implementation for Gsm 7-bit default and extended character set
  * See GSM 03.38
- * 
+ *
  * @author Sverker Abrahamsson
  * @version $Id: Gsm7BitCharset.java 90 2011-04-19 22:07:52Z sverkera $
  */
 public class Gsm7BitCharset extends Charset {
 
 	private boolean debug = false;
-	
+
 	// HashMap's used for encoding and decoding
 	protected static HashMap<String, Byte> defaultEncodeMap = new HashMap<String, Byte>();
 	protected static HashMap<Byte, String> defaultDecodeMap = new HashMap<Byte, String>();
 	protected static HashMap<String, Byte> extEncodeMap = new HashMap<String, Byte>();
 	protected static HashMap<Byte, String> extDecodeMap = new HashMap<Byte, String>();
-	
+
 	// Data to populate the hashmaps with
-	private static final Object[][] gsmCharacters = { 
-		{ "@",      new Byte((byte) 0x00) },
-		{ "£",      new Byte((byte) 0x01) },
-		{ "$",      new Byte((byte) 0x02) },
-		{ "¥",      new Byte((byte) 0x03) },
-		{ "è",      new Byte((byte) 0x04) },
-		{ "é",      new Byte((byte) 0x05) },
-		{ "ù",      new Byte((byte) 0x06) },
-		{ "ì",      new Byte((byte) 0x07) },
-		{ "ò",      new Byte((byte) 0x08) },
-		{ "Ç",      new Byte((byte) 0x09) },
-		{ "\n",     new Byte((byte) 0x0a) },
-		{ "Ø",      new Byte((byte) 0x0b) },
-		{ "ø",      new Byte((byte) 0x0c) },
-		{ "\r",     new Byte((byte) 0x0d) },
-		{ "Å",      new Byte((byte) 0x0e) },
-		{ "å",      new Byte((byte) 0x0f) },
-		{ "\u0394", new Byte((byte) 0x10) },
-		{ "_",      new Byte((byte) 0x11) },
-		{ "\u03A6", new Byte((byte) 0x12) },
-		{ "\u0393", new Byte((byte) 0x13) },
-		{ "\u039B", new Byte((byte) 0x14) },
-		{ "\u03A9", new Byte((byte) 0x15) },
-		{ "\u03A0", new Byte((byte) 0x16) },
-		{ "\u03A8", new Byte((byte) 0x17) },
-		{ "\u03A3", new Byte((byte) 0x18) },
-		{ "\u0398", new Byte((byte) 0x19) },
-		{ "\u039E", new Byte((byte) 0x1a) },
-		{ "\u001B", new Byte((byte) 0x1b) }, // 27 is Escape character
-		{ "Æ",      new Byte((byte) 0x1c) },
-		{ "æ",      new Byte((byte) 0x1d) },
-		{ "ß",      new Byte((byte) 0x1e) },
-		{ "É",      new Byte((byte) 0x1f) },
-		{ "\u0020", new Byte((byte) 0x20) },
-		{ "!",      new Byte((byte) 0x21) },
-		{ "\"",     new Byte((byte) 0x22) },
-		{ "#",      new Byte((byte) 0x23) },
-		{ "¤",      new Byte((byte) 0x24) },
-		{ "%",      new Byte((byte) 0x25) },
-		{ "&",      new Byte((byte) 0x26) },
-		{ "'",      new Byte((byte) 0x27) },
-		{ "(",      new Byte((byte) 0x28) },
-		{ ")",      new Byte((byte) 0x29) },
-		{ "*",      new Byte((byte) 0x2a) },
-		{ "+",      new Byte((byte) 0x2b) },
-		{ ",",      new Byte((byte) 0x2c) },
-		{ "-",      new Byte((byte) 0x2d) },
-		{ ".",      new Byte((byte) 0x2e) },
-		{ "/",      new Byte((byte) 0x2f) },
-		{ "0",      new Byte((byte) 0x30) },
-		{ "1",      new Byte((byte) 0x31) },
-		{ "2",      new Byte((byte) 0x32) },
-		{ "3",      new Byte((byte) 0x33) },
-		{ "4",      new Byte((byte) 0x34) },
-		{ "5",      new Byte((byte) 0x35) },
-		{ "6",      new Byte((byte) 0x36) },
-		{ "7",      new Byte((byte) 0x37) },
-		{ "8",      new Byte((byte) 0x38) },
-		{ "9",      new Byte((byte) 0x39) },
-		{ ":",      new Byte((byte) 0x3a) },
-		{ ";",      new Byte((byte) 0x3b) },
-		{ "<",      new Byte((byte) 0x3c) },
-		{ "=",      new Byte((byte) 0x3d) },
-		{ ">",      new Byte((byte) 0x3e) },
-		{ "?",      new Byte((byte) 0x3f) },
-		{ "¡",      new Byte((byte) 0x40) },
-		{ "A",      new Byte((byte) 0x41) },
-		{ "B",      new Byte((byte) 0x42) },
-		{ "C",      new Byte((byte) 0x43) },
-		{ "D",      new Byte((byte) 0x44) },
-		{ "E",      new Byte((byte) 0x45) },
-		{ "F",      new Byte((byte) 0x46) },
-		{ "G",      new Byte((byte) 0x47) },
-		{ "H",      new Byte((byte) 0x48) },
-		{ "I",      new Byte((byte) 0x49) },
-		{ "J",      new Byte((byte) 0x4a) },
-		{ "K",      new Byte((byte) 0x4b) },
-		{ "L",      new Byte((byte) 0x4c) },
-		{ "M",      new Byte((byte) 0x4d) },
-		{ "N",      new Byte((byte) 0x4e) },
-		{ "O",      new Byte((byte) 0x4f) },
-		{ "P",      new Byte((byte) 0x50) },
-		{ "Q",      new Byte((byte) 0x51) },
-		{ "R",      new Byte((byte) 0x52) },
-		{ "S",      new Byte((byte) 0x53) },
-		{ "T",      new Byte((byte) 0x54) },
-		{ "U",      new Byte((byte) 0x55) },
-		{ "V",      new Byte((byte) 0x56) },
-		{ "W",      new Byte((byte) 0x57) },
-		{ "X",      new Byte((byte) 0x58) },
-		{ "Y",      new Byte((byte) 0x59) },
-		{ "Z",      new Byte((byte) 0x5a) },
-		{ "Ä",      new Byte((byte) 0x5b) },
-		{ "Ö",      new Byte((byte) 0x5c) },
-		{ "Ñ",      new Byte((byte) 0x5d) },
-		{ "Ü",      new Byte((byte) 0x5e) },
-		{ "§",      new Byte((byte) 0x5f) },
-		{ "¿",      new Byte((byte) 0x60) },
-		{ "a",      new Byte((byte) 0x61) },
-		{ "b",      new Byte((byte) 0x62) },
-		{ "c",      new Byte((byte) 0x63) },
-		{ "d",      new Byte((byte) 0x64) },
-		{ "e",      new Byte((byte) 0x65) },
-		{ "f",      new Byte((byte) 0x66) },
-		{ "g",      new Byte((byte) 0x67) },
-		{ "h",      new Byte((byte) 0x68) },
-		{ "i",      new Byte((byte) 0x69) },
-		{ "j",      new Byte((byte) 0x6a) },
-		{ "k",      new Byte((byte) 0x6b) },
-		{ "l",      new Byte((byte) 0x6c) },
-		{ "m",      new Byte((byte) 0x6d) },
-		{ "n",      new Byte((byte) 0x6e) },
-		{ "o",      new Byte((byte) 0x6f) },
-		{ "p",      new Byte((byte) 0x70) },
-		{ "q",      new Byte((byte) 0x71) },
-		{ "r",      new Byte((byte) 0x72) },
-		{ "s",      new Byte((byte) 0x73) },
-		{ "t",      new Byte((byte) 0x74) },
-		{ "u",      new Byte((byte) 0x75) },
-		{ "v",      new Byte((byte) 0x76) },
-		{ "w",      new Byte((byte) 0x77) },
-		{ "x",      new Byte((byte) 0x78) },
-		{ "y",      new Byte((byte) 0x79) },
-		{ "z",      new Byte((byte) 0x7a) },
-		{ "ä",      new Byte((byte) 0x7b) },
-		{ "ö",      new Byte((byte) 0x7c) },
-		{ "ñ",      new Byte((byte) 0x7d) },
-		{ "ü",      new Byte((byte) 0x7e) },
-		{ "à",      new Byte((byte) 0x7f) }
+	private static final Object[][] gsmCharacters = {
+		{ "@",      Byte.valueOf((byte) 0x00) },
+		{ "£",      Byte.valueOf((byte) 0x01) },
+		{ "$",      Byte.valueOf((byte) 0x02) },
+		{ "¥",      Byte.valueOf((byte) 0x03) },
+		{ "è",      Byte.valueOf((byte) 0x04) },
+		{ "é",      Byte.valueOf((byte) 0x05) },
+		{ "ù",      Byte.valueOf((byte) 0x06) },
+		{ "ì",      Byte.valueOf((byte) 0x07) },
+		{ "ò",      Byte.valueOf((byte) 0x08) },
+		{ "Ç",      Byte.valueOf((byte) 0x09) },
+		{ "\n",     Byte.valueOf((byte) 0x0a) },
+		{ "Ø",      Byte.valueOf((byte) 0x0b) },
+		{ "ø",      Byte.valueOf((byte) 0x0c) },
+		{ "\r",     Byte.valueOf((byte) 0x0d) },
+		{ "Å",      Byte.valueOf((byte) 0x0e) },
+		{ "å",      Byte.valueOf((byte) 0x0f) },
+		{ "\u0394", Byte.valueOf((byte) 0x10) },
+		{ "_",      Byte.valueOf((byte) 0x11) },
+		{ "\u03A6", Byte.valueOf((byte) 0x12) },
+		{ "\u0393", Byte.valueOf((byte) 0x13) },
+		{ "\u039B", Byte.valueOf((byte) 0x14) },
+		{ "\u03A9", Byte.valueOf((byte) 0x15) },
+		{ "\u03A0", Byte.valueOf((byte) 0x16) },
+		{ "\u03A8", Byte.valueOf((byte) 0x17) },
+		{ "\u03A3", Byte.valueOf((byte) 0x18) },
+		{ "\u0398", Byte.valueOf((byte) 0x19) },
+		{ "\u039E", Byte.valueOf((byte) 0x1a) },
+		{ "\u001B", Byte.valueOf((byte) 0x1b) }, // 27 is Escape character
+		{ "Æ",      Byte.valueOf((byte) 0x1c) },
+		{ "æ",      Byte.valueOf((byte) 0x1d) },
+		{ "ß",      Byte.valueOf((byte) 0x1e) },
+		{ "É",      Byte.valueOf((byte) 0x1f) },
+		{ "\u0020", Byte.valueOf((byte) 0x20) },
+		{ "!",      Byte.valueOf((byte) 0x21) },
+		{ "\"",     Byte.valueOf((byte) 0x22) },
+		{ "#",      Byte.valueOf((byte) 0x23) },
+		{ "¤",      Byte.valueOf((byte) 0x24) },
+		{ "%",      Byte.valueOf((byte) 0x25) },
+		{ "&",      Byte.valueOf((byte) 0x26) },
+		{ "'",      Byte.valueOf((byte) 0x27) },
+		{ "(",      Byte.valueOf((byte) 0x28) },
+		{ ")",      Byte.valueOf((byte) 0x29) },
+		{ "*",      Byte.valueOf((byte) 0x2a) },
+		{ "+",      Byte.valueOf((byte) 0x2b) },
+		{ ",",      Byte.valueOf((byte) 0x2c) },
+		{ "-",      Byte.valueOf((byte) 0x2d) },
+		{ ".",      Byte.valueOf((byte) 0x2e) },
+		{ "/",      Byte.valueOf((byte) 0x2f) },
+		{ "0",      Byte.valueOf((byte) 0x30) },
+		{ "1",      Byte.valueOf((byte) 0x31) },
+		{ "2",      Byte.valueOf((byte) 0x32) },
+		{ "3",      Byte.valueOf((byte) 0x33) },
+		{ "4",      Byte.valueOf((byte) 0x34) },
+		{ "5",      Byte.valueOf((byte) 0x35) },
+		{ "6",      Byte.valueOf((byte) 0x36) },
+		{ "7",      Byte.valueOf((byte) 0x37) },
+		{ "8",      Byte.valueOf((byte) 0x38) },
+		{ "9",      Byte.valueOf((byte) 0x39) },
+		{ ":",      Byte.valueOf((byte) 0x3a) },
+		{ ";",      Byte.valueOf((byte) 0x3b) },
+		{ "<",      Byte.valueOf((byte) 0x3c) },
+		{ "=",      Byte.valueOf((byte) 0x3d) },
+		{ ">",      Byte.valueOf((byte) 0x3e) },
+		{ "?",      Byte.valueOf((byte) 0x3f) },
+		{ "¡",      Byte.valueOf((byte) 0x40) },
+		{ "A",      Byte.valueOf((byte) 0x41) },
+		{ "B",      Byte.valueOf((byte) 0x42) },
+		{ "C",      Byte.valueOf((byte) 0x43) },
+		{ "D",      Byte.valueOf((byte) 0x44) },
+		{ "E",      Byte.valueOf((byte) 0x45) },
+		{ "F",      Byte.valueOf((byte) 0x46) },
+		{ "G",      Byte.valueOf((byte) 0x47) },
+		{ "H",      Byte.valueOf((byte) 0x48) },
+		{ "I",      Byte.valueOf((byte) 0x49) },
+		{ "J",      Byte.valueOf((byte) 0x4a) },
+		{ "K",      Byte.valueOf((byte) 0x4b) },
+		{ "L",      Byte.valueOf((byte) 0x4c) },
+		{ "M",      Byte.valueOf((byte) 0x4d) },
+		{ "N",      Byte.valueOf((byte) 0x4e) },
+		{ "O",      Byte.valueOf((byte) 0x4f) },
+		{ "P",      Byte.valueOf((byte) 0x50) },
+		{ "Q",      Byte.valueOf((byte) 0x51) },
+		{ "R",      Byte.valueOf((byte) 0x52) },
+		{ "S",      Byte.valueOf((byte) 0x53) },
+		{ "T",      Byte.valueOf((byte) 0x54) },
+		{ "U",      Byte.valueOf((byte) 0x55) },
+		{ "V",      Byte.valueOf((byte) 0x56) },
+		{ "W",      Byte.valueOf((byte) 0x57) },
+		{ "X",      Byte.valueOf((byte) 0x58) },
+		{ "Y",      Byte.valueOf((byte) 0x59) },
+		{ "Z",      Byte.valueOf((byte) 0x5a) },
+		{ "Ä",      Byte.valueOf((byte) 0x5b) },
+		{ "Ö",      Byte.valueOf((byte) 0x5c) },
+		{ "Ñ",      Byte.valueOf((byte) 0x5d) },
+		{ "Ü",      Byte.valueOf((byte) 0x5e) },
+		{ "§",      Byte.valueOf((byte) 0x5f) },
+		{ "¿",      Byte.valueOf((byte) 0x60) },
+		{ "a",      Byte.valueOf((byte) 0x61) },
+		{ "b",      Byte.valueOf((byte) 0x62) },
+		{ "c",      Byte.valueOf((byte) 0x63) },
+		{ "d",      Byte.valueOf((byte) 0x64) },
+		{ "e",      Byte.valueOf((byte) 0x65) },
+		{ "f",      Byte.valueOf((byte) 0x66) },
+		{ "g",      Byte.valueOf((byte) 0x67) },
+		{ "h",      Byte.valueOf((byte) 0x68) },
+		{ "i",      Byte.valueOf((byte) 0x69) },
+		{ "j",      Byte.valueOf((byte) 0x6a) },
+		{ "k",      Byte.valueOf((byte) 0x6b) },
+		{ "l",      Byte.valueOf((byte) 0x6c) },
+		{ "m",      Byte.valueOf((byte) 0x6d) },
+		{ "n",      Byte.valueOf((byte) 0x6e) },
+		{ "o",      Byte.valueOf((byte) 0x6f) },
+		{ "p",      Byte.valueOf((byte) 0x70) },
+		{ "q",      Byte.valueOf((byte) 0x71) },
+		{ "r",      Byte.valueOf((byte) 0x72) },
+		{ "s",      Byte.valueOf((byte) 0x73) },
+		{ "t",      Byte.valueOf((byte) 0x74) },
+		{ "u",      Byte.valueOf((byte) 0x75) },
+		{ "v",      Byte.valueOf((byte) 0x76) },
+		{ "w",      Byte.valueOf((byte) 0x77) },
+		{ "x",      Byte.valueOf((byte) 0x78) },
+		{ "y",      Byte.valueOf((byte) 0x79) },
+		{ "z",      Byte.valueOf((byte) 0x7a) },
+		{ "ä",      Byte.valueOf((byte) 0x7b) },
+		{ "ö",      Byte.valueOf((byte) 0x7c) },
+		{ "ñ",      Byte.valueOf((byte) 0x7d) },
+		{ "ü",      Byte.valueOf((byte) 0x7e) },
+		{ "à",      Byte.valueOf((byte) 0x7f) }
 	};
 
-	private static final Object[][] gsmExtensionCharacters = { 
-		{ "\n", new Byte((byte) 0x0a) },
-		{ "^",  new Byte((byte) 0x14) },
-		{ " ",  new Byte((byte) 0x1b) }, // reserved for future extensions
-		{ "{",  new Byte((byte) 0x28) },
-		{ "}",  new Byte((byte) 0x29) },
-		{ "\\", new Byte((byte) 0x2f) },
-		{ "[",  new Byte((byte) 0x3c) },
-		{ "~",  new Byte((byte) 0x3d) },
-		{ "]",  new Byte((byte) 0x3e) },
-		{ "|",  new Byte((byte) 0x40) },
-		{ "€",  new Byte((byte) 0x65) }
+	private static final Object[][] gsmExtensionCharacters = {
+		{ "\n", Byte.valueOf((byte) 0x0a) },
+		{ "^",  Byte.valueOf((byte) 0x14) },
+		{ " ",  Byte.valueOf((byte) 0x1b) }, // reserved for future extensions
+		{ "{",  Byte.valueOf((byte) 0x28) },
+		{ "}",  Byte.valueOf((byte) 0x29) },
+		{ "\\", Byte.valueOf((byte) 0x2f) },
+		{ "[",  Byte.valueOf((byte) 0x3c) },
+		{ "~",  Byte.valueOf((byte) 0x3d) },
+		{ "]",  Byte.valueOf((byte) 0x3e) },
+		{ "|",  Byte.valueOf((byte) 0x40) },
+		{ "€",  Byte.valueOf((byte) 0x65) }
 	};
 
 	private static Logger logger = Logger.getLogger(Gsm7BitCharset.class.getName());
-	
+
 	// static section that populates the encode and decode HashMap objects
 	static {
 		// default alphabet
@@ -274,7 +274,7 @@ public class Gsm7BitCharset extends Charset {
 					if(debug)
 						logger.finest("Trying extended map to encode ch " + ch + " to byte " + b);
 					if (b != null) {
-						// since the extended character set takes two bytes 
+						// since the extended character set takes two bytes
 						// we have to check that there is enough space left
 						if (bb.remaining() < 2) {
 							// go back one step
@@ -287,7 +287,7 @@ public class Gsm7BitCharset extends Charset {
 						bb.put((byte) b.byteValue());
 					} else {
 						// no match found, send a ?
-						b = new Byte((byte) 0x3F);
+						b = Byte.valueOf((byte) 0x3F);
 						bb.put((byte) b.byteValue());
 					}
 				}
@@ -328,7 +328,7 @@ public class Gsm7BitCharset extends Charset {
 				// first check the default alphabet
 				if(debug)
 					logger.finest("Looking up byte " + b);
-				String s = (String) defaultDecodeMap.get(new Byte(b));
+				String s = (String) defaultDecodeMap.get(Byte.valueOf(b));
 				if (s != null) {
 					char ch = s.charAt(0);
 					if (ch != '\u001B') {
@@ -341,7 +341,7 @@ public class Gsm7BitCharset extends Charset {
 						// check the extended alphabet
 						if (bb.hasRemaining()) {
 							b = bb.get();
-							s = (String) extDecodeMap.get(new Byte(b));
+							s = (String) extDecodeMap.get(Byte.valueOf(b));
 							if (s != null) {
 								if(debug)
 									logger.finest("Found extended string " + s);

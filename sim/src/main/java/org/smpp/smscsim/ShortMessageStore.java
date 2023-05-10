@@ -15,7 +15,6 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 
 import org.smpp.pdu.SubmitSM;
-import org.smpp.smscsim.ShortMessageValue;
 
 /**
  * Class <code>ShortMessageStore</code> is used to store the sms's sent by
@@ -37,7 +36,7 @@ public class ShortMessageStore {
 	}
 
 	/**
-	 * Stores the message in a hashtable 
+	 * Stores the message in a hashtable
 	 * where the key is the <code>messageId</code> and the value is
 	 * a new instance of the class <code>ShortMessageValue</code>
 	 * which contains subset of fields from <code>SubmitSM</code>.
@@ -165,7 +164,7 @@ public class ShortMessageStore {
  * Revision 1.1  2003/07/23 00:28:39  sverkera
  * Imported
  *
- * 
+ *
  * Old changelog:
  * 20-09-01 ticp@logica.com added getMessage() returning a message data
  *                          for message with given messageId

@@ -10,8 +10,6 @@
  */
 package org.smpp.pdu;
 
-import org.smpp.pdu.PDU;
-
 /**
  * Represents a PDU response. All classes which are used as SMPP response are
  * derived from this class.
@@ -33,7 +31,7 @@ public abstract class Response extends PDU {
 	/**
 	 * Create response PDU with given command id.
 	 * Derived classes usually uses <code>super(THE_COMMAND_ID)</code>
-	 * where the <code>THE_COMMAND_ID</code> is the command id of the 
+	 * where the <code>THE_COMMAND_ID</code> is the command id of the
 	 * PDU the derived class represents.
 	 */
 	public Response(int commandId) {
@@ -85,7 +83,7 @@ public abstract class Response extends PDU {
 }
 /*
  * $Log: not supported by cvs2svn $
- * 
+ *
  * Old changelog:
  * 02-10-01 ticp@logica.com comments added, indentation changed -> spaces
  * 09-10-01 ticp@logica.com added registration of original request if the response

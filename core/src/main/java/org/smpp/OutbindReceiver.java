@@ -13,7 +13,6 @@ package org.smpp;
 import java.io.IOException;
 import java.io.InterruptedIOException;
 
-import org.smpp.Data;
 import org.smpp.pdu.*;
 import org.smpp.pdu.tlv.TLVException;
 import org.smpp.util.*;
@@ -21,7 +20,7 @@ import org.smpp.util.*;
 /**
  * This class is for receiving outbind request from SMSC.
  * It listens on server socket for client connection, if the connection
- * is accepted and created, it reads a PDU on the connection and if it is 
+ * is accepted and created, it reads a PDU on the connection and if it is
  * outbind pdu, it creates an <code>OutbindEvent</code> and passes it to the
  * <code>OutbindEventListener</code>.
  *
@@ -186,7 +185,7 @@ public class OutbindReceiver extends ReceiverBase {
  *
  * Old changelog:
  * 01-10-01 ticp@logica.com added function getThreadName for ProcessingThread
- *						   thread name initialisation -- reflecting the intro 
+ *						   thread name initialisation -- reflecting the intro
  *						   of ProcessingThread in the hierarchy
  * 01-10-01 ticp@logica.com some more comments added
  */
