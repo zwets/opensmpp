@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.opensmpp</groupId>
 	<artifactId>opensmpp-parent</artifactId>
-	<version>3.0.4</version>
+	<version>3.0.5-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>OpenSMPP</name>
 	<description>
@@ -103,9 +103,6 @@
 	<profiles>
 		<profile>
 			<id>release-sign-artifacts</id>
-			<properties>
-				<gpg.executable>gpg2</gpg.executable>
-			</properties>
 			<activation>
 				<property>
 					<name>performRelease</name>
@@ -249,7 +246,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.22.2</version>
+				<version>3.1.0</version>
 				<configuration>
 					<argLine>--add-opens java.base/java.lang=ALL-UNNAMED</argLine>
 				</configuration>
