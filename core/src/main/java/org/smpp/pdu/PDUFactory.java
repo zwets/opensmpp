@@ -1,5 +1,6 @@
 package org.smpp.pdu;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Vector;
 
 /**
@@ -78,25 +79,14 @@ public class PDUFactory {
 	 *         is unknown.
 	 */
 	public static final PDU createPDU(int commandId) {
-		int size = pduList.size();
-		PDU pdu = null;
-		PDU newInstance = null;
-
-		for (int i = 0; i < size; i++) {
-			pdu = (PDU)pduList.get(i);
-			if (pdu != null) {
-				if (pdu.getCommandId() == commandId) {
-					try {
-						newInstance = (PDU) (pdu.getClass().newInstance());
-					} catch (IllegalAccessException e) {
-						// can't be illegal access, we initialised
-						// the list with instances of our classes
-					} catch (InstantiationException e) {
-						// can't be instantiation as we already instantiated
-						// at least once, for both exception see help
-						// for Class.newInstance()
-					}
-					return newInstance;
+		for (PDU pdu : pduList) {
+			if (pdu != null && pdu.getCommandId() == commandId) {
+				try {
+					return pdu.getClass().getDeclaredConstructor().newInstance();
+				} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
+						| InvocationTargetException | NoSuchMethodException | SecurityException e) {
+					e.printStackTrace();
+					break;
 				}
 			}
 		}
