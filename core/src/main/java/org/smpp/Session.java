@@ -134,7 +134,7 @@ public class Session extends SmppObject {
 	 * E.g. for deliver_sm this table contains states receiver and transceiver,
 	 * which means that MC can send PDU with deliver_sm command id only in case
 	 * the ESME is bound as receiver or transceiver.<br>
-	 * <emp>Note:</emp> The MC state matrix is not completly supported by
+	 * <em>Note:</em> The MC state matrix is not completly supported by
 	 * the current implementation of session, so it's currently altered
 	 * to reflect the impplementation.
 	 * @see #initialiseStateMatrix()
@@ -376,7 +376,7 @@ public class Session extends SmppObject {
 	 * the connection is closed.<br>
 	 * If the variable <code>pduListener</code> is not <code>null</code>,
 	 * the session is asynchronous, otherwise the session is synchronous.
-	 * Note that the <code>bind</code> method is <emp>always</emp> synchronous,
+	 * Note that the <code>bind</code> method is <em>always</em> synchronous,
 	 * regardless of the value of the <code>pduListener</code> variable.
 	 * <p>
 	 * See "SMPP Protocol Specification 3.4, 4.1 BIND Operation."
@@ -454,7 +454,7 @@ public class Session extends SmppObject {
 	 * Stops <code>receiver</code> (if applicable), unbinds from SMSC
 	 * by sending <code>Unbind</code> PDU, waits for <code>UnbindResp</code>
 	 * and then closes the connection.<br>
-	 * Note that the <code>unbind</code> method is <emp>always</emp> synchronous
+	 * Note that the <code>unbind</code> method is <em>always</em> synchronous
 	 * or asynchronous depending on the value of the <code>asynchronous</code>
 	 * variable.
 	 * <p>
@@ -1138,7 +1138,7 @@ public class Session extends SmppObject {
 	public void checkState(PDU pdu) throws WrongSessionStateException {
 		if (stateChecking) {
 			Hashtable<Integer, Integer> pduMatrix = getStateMatrix(type);
-			Integer commandIdInteger = new Integer(pdu.getCommandId());
+			Integer commandIdInteger = Integer.valueOf(pdu.getCommandId());
 			Integer requestedStateInteger = pduMatrix == null ? null : pduMatrix.get(commandIdInteger);
 			if (requestedStateInteger != null) {
 				checkState(requestedStateInteger.intValue());
@@ -1286,7 +1286,7 @@ public class Session extends SmppObject {
 	 * @see #isStateAllowed(int)
 	 */
 	private static void addValidState(Hashtable<Integer, Integer> matrix, int commandId, int state) {
-		matrix.put(new Integer(commandId), new Integer(state));
+		matrix.put(Integer.valueOf(commandId), Integer.valueOf(state));
 	}
 
 	/**

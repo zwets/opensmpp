@@ -70,7 +70,7 @@ public class Simulator {
 	/**
 	 * Name of file with user (client) authentication information.
 	 */
-	static String usersFileName = System.getProperty("usersFileName", "etc/users.txt");
+	static String usersFileName = System.getProperty("usersFileName", "users.txt");
 
 	/**
 	 * Directory for creating of debug and event files.

@@ -12,13 +12,12 @@ package org.smpp;
 
 import java.io.IOException;
 
-import org.smpp.Data;
 import org.smpp.util.ByteBuffer;
 
 /**
  * Abstract class defining necessary abstract methods for communication
  * over socket based network communication interface. It defines methods
- * for both client & server connection.<br>
+ * for both client &amp; server connection.<br>
  * <code>Session</code>, <code>Transmitter</code> and <code>Receiver</code>
  * classes use this class for sending and receiving data to and from SMSC.
  * 

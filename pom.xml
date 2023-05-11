@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.opensmpp</groupId>
 	<artifactId>opensmpp-parent</artifactId>
-	<version>3.0.3-SNAPSHOT</version>
+	<version>3.0.4</version>
 	<packaging>pom</packaging>
 	<name>OpenSMPP</name>
 	<description>
@@ -13,10 +13,10 @@
 	<url>http://opensmpp.org/</url>
 
 	<properties>
-		<maven.compiler.source>7</maven.compiler.source>
-		<maven.compiler.target>7</maven.compiler.target>
+		<maven.compiler.source>17</maven.compiler.source>
+		<maven.compiler.target>17</maven.compiler.target>
 		<maven.compiler.encoding>UTF-8</maven.compiler.encoding>
-	  </properties>
+	</properties>
 
 	<modules>
 		<module>core</module>
@@ -34,9 +34,9 @@
 
 				Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
 
-					* Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
-				    * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
-    				* Neither the name of the OpenSmpp Project nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+				* Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+				* Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+				* Neither the name of the OpenSmpp Project nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
 
 				THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
@@ -78,15 +78,15 @@
 	</developers>
 
 	<scm>
-		<url>https://github.com/OpenSmpp/opensmpp</url>
-		<connection>scm:git:git://github.com/OpenSmpp/opensmpp.git</connection>
-		<developerConnection>scm:git:git@github.com:OpenSmpp/opensmpp.git</developerConnection>
-	  <tag>HEAD</tag>
-  </scm>
+		<url>https://github.com/zwets/opensmpp</url>
+		<connection>scm:git:git://github.com/zwets/opensmpp.git</connection>
+		<developerConnection>scm:git:git@github.com:zwets/opensmpp.git</developerConnection>
+		<tag>HEAD</tag>
+	</scm>
 
 	<issueManagement>
 		<system>github</system>
-		<url>http://github.com/OpenSmpp/opensmpp/issues</url>
+		<url>http://github.com/zwets/opensmpp/issues</url>
 	</issueManagement>
 
 	<distributionManagement>
@@ -103,9 +103,9 @@
 	<profiles>
 		<profile>
 			<id>release-sign-artifacts</id>
-         <properties>
-            <gpg.executable>gpg2</gpg.executable>
-         </properties>
+			<properties>
+				<gpg.executable>gpg2</gpg.executable>
+			</properties>
 			<activation>
 				<property>
 					<name>performRelease</name>
@@ -159,7 +159,7 @@
 			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-api</artifactId>
-				<version>1.7.31</version>
+				<version>1.7.36</version>
 			</dependency>
 			<dependency>
 				<groupId>junit</groupId>
@@ -170,7 +170,7 @@
 			<dependency>
 				<groupId>org.mockito</groupId>
 				<artifactId>mockito-core</artifactId>
-				<version>3.11.2</version>
+				<version>3.12.4</version>
 				<scope>test</scope>
 			</dependency>
 			<dependency>
@@ -192,8 +192,16 @@
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.11.0</version>
+				<configuration>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-resources-plugin</artifactId>
-				<version>3.2.0</version>
+				<version>3.3.1</version>
 				<configuration>
 					<encoding>UTF-8</encoding>
 				</configuration>
@@ -214,11 +222,9 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>3.3.0</version>
+				<version>3.5.0</version>
 				<configuration>
 					<encoding>UTF-8</encoding>
-               <!-- Java 8 became stricter, and fails builds if it finds invalid Javadoc . Disable: -->
-               <additionalparam>-Xdoclint:none</additionalparam>
 				</configuration>
 				<executions>
 					<execution>
@@ -232,7 +238,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-release-plugin</artifactId>
-				<version>2.4</version>
+				<version>3.0</version>
 				<configuration>
 					<autoVersionSubmodules>true</autoVersionSubmodules>
 					<mavenExecutorId>forked-path</mavenExecutorId>
@@ -242,13 +248,16 @@
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-failsafe-plugin</artifactId>
-		        <version>2.21.0</version>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.22.2</version>
 				<configuration>
-					<!-- headless: stop ForkedBooter from popping up all over the place on OSX GUI. -->
-					<argLine>-Djava.awt.headless=true</argLine>
-					<forkCount>1</forkCount>
+					<argLine>--add-opens java.base/java.lang=ALL-UNNAMED</argLine>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<version>2.22.2</version>
 				<executions>
 					<execution>
 						<goals>
@@ -257,6 +266,20 @@
 						</goals>
 					</execution>
 				</executions>
+				<configuration>
+					<argLine>-Djava.awt.headless=true</argLine>
+					<forkCount>1</forkCount>
+					<reuseForks>false</reuseForks>
+					<classesDirectory>${project.build.outputDirectory}</classesDirectory>
+					<trimStackTrace>false</trimStackTrace>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>org.apache.maven.surefire</groupId>
+						<artifactId>surefire-junit4</artifactId>
+						<version>2.22.2</version>
+					</dependency>
+				</dependencies>
 			</plugin>
 		</plugins>
 	</build>

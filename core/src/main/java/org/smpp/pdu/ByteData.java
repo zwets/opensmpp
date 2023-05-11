@@ -180,7 +180,7 @@ public abstract class ByteData extends SmppObject {
 	 * @param min minimal possible length
 	 * @param length the length to check
 	 * @param max maximal possible length
-	 * @throws  thrown if the value is out of bounds
+	 * @throws WrongLengthOfStringException if the value is out of bounds
 	 */
 	protected static void checkString(int min, int length, int max) throws WrongLengthOfStringException {
 		if ((length < min) || (length > max)) {
@@ -194,7 +194,7 @@ public abstract class ByteData extends SmppObject {
 	 *
 	 * @param string the string to check
 	 * @param max    the maximal length of the string with added term. zero
-	 * @exception WrongLengthOfStringException thrown if string with added
+	 * @throws WrongLengthOfStringException thrown if string with added
 	 *            terminating zero would be longer than the maximum
 	 */
 	protected static void checkCString(String string, int max) throws WrongLengthOfStringException {
@@ -315,6 +315,7 @@ public abstract class ByteData extends SmppObject {
 	 * This converts the negative byte value representing positive length into positive
 	 * short value.
 	 * @see #encodeUnsigned(short)
+	 * @return value of byte interpreted as unsigned
 	 */
 	protected static short decodeUnsigned(byte signed) {
 		if (signed >= 0) {
@@ -330,6 +331,7 @@ public abstract class ByteData extends SmppObject {
 	 * See explanation in <code>decodeUnsigned(byte)</code>.
 	 * @see #decodeUnsigned(byte)
 	 * @see #encodeUnsigned(int)
+	 * @return value of short interpreted as unsigned
 	 */
 	protected static int decodeUnsigned(short signed) {
 		if (signed >= 0) {
@@ -342,6 +344,7 @@ public abstract class ByteData extends SmppObject {
 	/**
 	 * Complementary operation to <code>decodeUnsigned</code>.
 	 * @see #decodeUnsigned(byte)
+	 * @return the unsigned 8-bit representation of the argument
 	 */
 	protected static byte encodeUnsigned(short positive) {
 		if (positive < 128) {
@@ -355,6 +358,7 @@ public abstract class ByteData extends SmppObject {
 	 * Complementary operation to <code>decodeUnsigned</code>.
 	 * @see #decodeUnsigned(byte)
 	 * @see #decodeUnsigned(short)
+	 * @return the unsigned 16-bit representation of the argument
 	 */
 	protected static short encodeUnsigned(int positive) {
 		if (positive < 32768) {

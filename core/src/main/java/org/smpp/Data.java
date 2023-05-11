@@ -504,6 +504,7 @@ public class Data {
 	 * The <code>CHAR_ENC</code> is replaced by <code>ENC_ASCII</code>
 	 * and redefined in this respect.
 	 */
+	@Deprecated
 	public static final String CHAR_ENC = ENC_ASCII;
 
 	public static final String DFLT_MSGID = "";

@@ -51,7 +51,7 @@ public interface SMSCSession extends Runnable {
 	 * Sets PDU processor factory, used instead of setPDUProcessor in case the session creates
 	 * the PDU processor.
 	 * @param pduProcessorFactory the PDU processor factory
-	 * @see #setPDUProcessor()
+	 * @see #setPDUProcessor(PDUProcessor pduProcessor)
 	 */
 	public abstract void setPDUProcessorFactory(PDUProcessorFactory pduProcessorFactory);
 	/**

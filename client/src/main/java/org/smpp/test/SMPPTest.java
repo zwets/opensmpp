@@ -170,6 +170,7 @@ public class SMPPTest {
 	/**
 	 * Initialises the application, lods default values for
 	 * connection to SMSC and for various PDU fields.
+         * @throws IOException when properties cannot be read
 	 */
 	public SMPPTest() throws IOException {
 		loadProperties(propsFilePath);

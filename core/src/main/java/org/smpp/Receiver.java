@@ -246,6 +246,7 @@ public class Receiver extends ReceiverBase {
 	 *       Receiver.receiveAsync()<br>
 	 *       ReceiverBase.receivePDUFromConnection<br>
 	 *       Connection.receive()</code>
+         * </ul>
 	 *
 	 * @param timeout for how long is tried to receive a PDU
 	 * @return the received PDU or null if none received for the spec. timeout
@@ -345,7 +346,7 @@ public class Receiver extends ReceiverBase {
 	 * <p>
 	 * If an exception occurs during receiving, depending on type
 	 * of the exception this method either just reports the exception to
-	 * debug & event objects or stops processing to indicate
+	 * debug &amp; event objects or stops processing to indicate
 	 * that it isn't able to process the exception. The function
 	 * <code>setTermException</code> is then called with the caught exception.
 	 * 

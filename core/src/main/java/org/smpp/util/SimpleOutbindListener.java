@@ -15,14 +15,14 @@ import org.smpp.OutbindEventListener;
 import org.smpp.SmppObject;
 
 /**
- * The SimpleOutbindListener class is example class for <tt>OutbindEventListener</tt>.
- * It stores all <tt>OutbindEvent</tt> passed to it's <tt>handleOutbind</tt>
- * method to <tt>Queue</tt> and notifies thread waiting on <tt>signaller</tt> object.<p>
- * The typical usage would be:<p>
+ * The SimpleOutbindListener class is example class for <code>OutbindEventListener</code>.
+ * It stores all <code>OutbindEvent</code> passed to it's <code>handleOutbind</code>
+ * method to <code>Queue</code> and notifies thread waiting on <code>signaller</code> object.
+ * The typical usage would be:
  * <blockquote><pre>
  * Connection conn = new TCPIPConnection("123.123.123.123",1234);
  * OutbindReceiver rcvr = new OutbindReceiver(conn);
- * // <tt>this</tt> as parameter means that the listener will notify
+ * // <code>this</code> as parameter means that the listener will notify
  * // the calling thread
  * SimpleOutbindListener listener = new SimpleOutbindListener(this);
  * OutbindEvent event;

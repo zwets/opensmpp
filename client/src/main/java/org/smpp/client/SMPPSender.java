@@ -119,16 +119,14 @@ public class SMPPSender {
 	/**
 	 * Initialises the application, lods default values for
 	 * connection to SMSC and for various PDU fields.
+	 * @throws IOException when properties cannot be loaded
 	 */
 	public SMPPSender() throws IOException {
 		loadProperties(propsFilePath);
 	}
 
 	/**
-	 * Sets global SMPP library debug and event objects.
-	 * Runs the application.
-	 * @see SmppObject#setDebug(Debug)
-	 * @see SmppObject#setEvent(Event)
+	 * Command-line sender
 	 */
 	public static void main(String args[]) {
 		// Parse the command line

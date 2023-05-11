@@ -16,7 +16,7 @@ import java.util.EventListener;
  * Callback interface for <code>Outbind</code> requests received from SMSC.
  * The only method of this interface, <code>handleOutbind</code>, is called
  * whenever an outbind request is received from SMSC.<br>
- * <emp>Important:</emp>The <code>handleOutbind</code> method is called
+ * <em>Important:</em>The <code>handleOutbind</code> method is called
  * from the receiver's thread context, so the implementation of the listener
  * should ensure that there is no deadloock, or at least not too much
  * time spent in the method.

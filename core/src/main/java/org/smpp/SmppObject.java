@@ -58,16 +58,16 @@ public class SmppObject {
 	 */
 	static protected Event event;
 
-	/** Debug tracing group for Receiver & Transmitter classes. */
+	/** Debug tracing group for Receiver &amp; Transmitter classes. */
 	public static final int DRXTX = 1;
 
-	/** Detailed debug tracing group for Receiver & Transmitter classes. */
+	/** Detailed debug tracing group for Receiver &amp; Transmitter classes. */
 	public static final int DRXTXD = 2;
 
-	/** Event more detailed debug tracing group for Receiver & Transmitter classes. */
+	/** Event more detailed debug tracing group for Receiver &amp; Transmitter classes. */
 	public static final int DRXTXD2 = 3;
 
-	/** Debug tracing group for Receiver & Transmitter classes. */
+	/** Debug tracing group for Receiver &amp; Transmitter classes. */
 	public static final int DSESS = 4;
 
 	/** Debug tracing group for PDU and derived classes. */

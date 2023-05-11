@@ -11,7 +11,6 @@
 package org.smpp.util;
 
 import org.smpp.Data;
-import org.smpp.util.ByteBuffer;
 
 /**
  * Utility class <code>Unprocessed</code> is used for data received from

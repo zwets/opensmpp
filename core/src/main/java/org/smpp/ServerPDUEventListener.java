@@ -23,7 +23,7 @@ import java.util.EventListener;
  * the SMSC, are passed to the instance of <code>ServerPDUEventListener</code>
  * implementation class. Users of the library are expected to implement
  * the listener.
- * <emp>Important:</emp>The <code>handleEvent</code> method is called
+ * <em>Important:</em>The <code>handleEvent</code> method is called
  * from the receiver's thread context, so the implementation of the listener
  * should ensure that there is no deadloock, or at least not too much
  * time spent in the method.
