@@ -22,12 +22,20 @@ public class AddressRange extends ByteData {
 	private byte npi = Data.getDefaultNpi();
 	private String addressRange = Data.DFLT_ADDR_RANGE;
 
+	/**
+	 * Construct an AddressRange with default ton, npi and range.
+	 */
 	public AddressRange() {
 		super();
 		setTon(Data.getDefaultTon());
 		setNpi(Data.getDefaultNpi());
 	}
 
+	/**
+	 * Construct an AddressRange with default ton, npi and given address range.
+	 * @param addressRange the address range to set
+	 * @throws WrongLengthOfStringException if length is invalid
+	 */
 	public AddressRange(String addressRange) throws WrongLengthOfStringException {
 		super();
 		setTon(Data.getDefaultTon());
@@ -35,6 +43,13 @@ public class AddressRange extends ByteData {
 		setAddressRange(addressRange);
 	}
 
+	/**
+	 * Construct an address range with given ton and npi
+	 * @param ton the ton to set
+	 * @param npi the npi to set
+	 * @param addressRange the address range
+	 * @throws WrongLengthOfStringException if length is invalid
+	 */
 	public AddressRange(byte ton, byte npi, String addressRange) throws WrongLengthOfStringException {
 		setTon(ton);
 		setNpi(npi);
@@ -59,23 +74,48 @@ public class AddressRange extends ByteData {
 		return addressBuf;
 	}
 
+	/**
+	 * Set the ton
+	 * @param t the ton to set
+	 */
 	public void setTon(byte t) {
 		ton = t;
 	}
+	/**
+	 * Set the npi
+	 * @param n the npi to set
+	 */
 	public void setNpi(byte n) {
 		npi = n;
 	}
+	/**
+	 * Set the address range
+	 * @param a the address ramge to set
+	 * @throws WrongLengthOfStringException if address range length is invalid
+	 */
 	public void setAddressRange(String a) throws WrongLengthOfStringException {
 		checkCString(a, Data.SM_ADDR_RANGE_LEN);
 		addressRange = a;
 	}
 
+	/**
+	 * Get the ton.
+	 * @return the ton value
+	 */
 	public byte getTon() {
 		return ton;
 	}
+	/**
+	 * Get the npi.
+	 * @return the npi value
+	 */
 	public byte getNpi() {
 		return npi;
 	}
+	/**
+	 * Get the address range string.
+	 * @return the address range string
+	 */
 	public String getAddressRange() {
 		return addressRange;
 	}

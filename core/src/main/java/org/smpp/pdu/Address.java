@@ -26,14 +26,27 @@ public class Address extends ByteData {
 	private static int defaultMaxAddressLength = Data.SM_ADDR_LEN;
 	private int maxAddressLength = defaultMaxAddressLength;
 
+	/**
+	 * Construct Address with default ton, npi, address, and max address length.
+	 */
 	public Address() {
 		this(Data.getDefaultTon(), Data.getDefaultNpi(), defaultMaxAddressLength);
 	}
 
+	/**
+	 * Construct Address with default ton, npi, address, and given max address length.
+	 * @param maxAddressLength maximum address length
+	 */
 	public Address(int maxAddressLength) {
 		this(Data.getDefaultTon(), Data.getDefaultNpi(), maxAddressLength);
 	}
 
+	/**
+	 * Construct Address with default address and given ton, npi and max length.
+	 * @param ton the ton to set
+	 * @param npi the npi to set
+	 * @param maxAddressLength maximum address lengh
+	 */
 	public Address(byte ton, byte npi, int maxAddressLength) {
 		setTon(ton);
 		setNpi(npi);
@@ -44,18 +57,44 @@ public class Address extends ByteData {
 		}
 	}
 
+	/**
+	 * Construct Address with default ton, npi and maximum length.
+	 * @param address string to set address to
+	 * @throws WrongLengthOfStringException when invalid address length
+	 */
 	public Address(String address) throws WrongLengthOfStringException {
 		this(Data.getDefaultTon(), Data.getDefaultNpi(), address, defaultMaxAddressLength);
 	}
 
+	/**
+	 * Construct Address with default ton, npi and given maximum length.
+	 * @param address string to set address to
+	 * @param maxAddressLength maximum length for address
+	 * @throws WrongLengthOfStringException when invalid address length
+	 */
 	public Address(String address, int maxAddressLength) throws WrongLengthOfStringException {
 		this(Data.getDefaultTon(), Data.getDefaultNpi(), address, maxAddressLength);
 	}
 
+	/**
+	 * Construct Address with given ton and npi.
+	 * @param ton the ton to set
+	 * @param npi the npi to set
+	 * @param address the address
+	 * @throws WrongLengthOfStringException when address is too long
+	 */
 	public Address(byte ton, byte npi, String address) throws WrongLengthOfStringException {
 		this(ton, npi, address, defaultMaxAddressLength);
 	}
 
+	/**
+	 * Construct Address with given ton, npi, and maximum length.
+	 * @param ton the ton to set
+	 * @param npi the npi to set
+	 * @param address the address
+	 * @param maxAddressLength the maximum length to set
+	 * @throws WrongLengthOfStringException when address is too long
+	 */
 	public Address(byte ton, byte npi, String address, int maxAddressLength) throws WrongLengthOfStringException {
 		setTon(ton);
 		setNpi(npi);
@@ -63,7 +102,7 @@ public class Address extends ByteData {
 	}
 
 	public void setData(ByteBuffer buffer)
-		throws NotEnoughDataInByteBufferException, TerminatingZeroNotFoundException, WrongLengthOfStringException {
+	throws NotEnoughDataInByteBufferException, TerminatingZeroNotFoundException, WrongLengthOfStringException {
 		byte ton = buffer.removeByte();
 		byte npi = buffer.removeByte();
 		String address = buffer.removeCString();
@@ -85,32 +124,68 @@ public class Address extends ByteData {
 		return addressBuf;
 	}
 
+	/**
+	 * Set the TON
+	 * @param ton the ton to set
+	 */
 	public void setTon(byte ton) {
 		this.ton = ton;
 	}
+	/**
+	 * Set the NPI
+	 * @param npi the NPI to set
+	 */
 	public void setNpi(byte npi) {
 		this.npi = npi;
 	}
+	/**
+	 * Set the address
+	 * @param address to set
+	 * @throws WrongLengthOfStringException if the address exceeds the maximum length
+	 */
 	public void setAddress(String address) throws WrongLengthOfStringException {
 		setAddress(address, maxAddressLength);
 	}
+	/**
+	 * Set the address
+	 * @param address the address to set
+	 * @param maxAddressLength the maximum length
+	 * @throws WrongLengthOfStringException if length exceeds the maximum length
+	 */
 	public void setAddress(String address, int maxAddressLength) throws WrongLengthOfStringException {
 		checkCString(address, maxAddressLength);
 		this.maxAddressLength = maxAddressLength;
 		this.address = address;
 	}
 
+	/**
+	 * Get the ton
+	 * @return the ton
+	 */
 	public byte getTon() {
 		return ton;
 	}
+	/** 
+	 * Get the NPI
+	 * @return the npi
+	 */
 	public byte getNpi() {
 		return npi;
 	}
 
+	/**
+	 * Get the address string.
+	 * @return the address string
+	 */
 	public String getAddress() {
 		return address;
 	}
 
+	/**
+	 * Get the address string in the given encoding.
+	 * @param encoding the encoding
+	 * @return the address string in the given encoding
+	 */
 	public String getAddress(String encoding) {
 		// The address is by default encoded with Data.ENC_ASCII
 		// Create a new string with the given encoding

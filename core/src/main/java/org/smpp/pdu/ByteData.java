@@ -315,6 +315,7 @@ public abstract class ByteData extends SmppObject {
 	 * This converts the negative byte value representing positive length into positive
 	 * short value.
 	 * @see #encodeUnsigned(short)
+	 * @param signed byte to decode
 	 * @return value of byte interpreted as unsigned
 	 */
 	protected static short decodeUnsigned(byte signed) {
@@ -331,6 +332,7 @@ public abstract class ByteData extends SmppObject {
 	 * See explanation in <code>decodeUnsigned(byte)</code>.
 	 * @see #decodeUnsigned(byte)
 	 * @see #encodeUnsigned(int)
+	 * @param signed short to decode
 	 * @return value of short interpreted as unsigned
 	 */
 	protected static int decodeUnsigned(short signed) {
@@ -344,6 +346,7 @@ public abstract class ByteData extends SmppObject {
 	/**
 	 * Complementary operation to <code>decodeUnsigned</code>.
 	 * @see #decodeUnsigned(byte)
+	 * @param positive short to encode
 	 * @return the unsigned 8-bit representation of the argument
 	 */
 	protected static byte encodeUnsigned(short positive) {
@@ -358,6 +361,7 @@ public abstract class ByteData extends SmppObject {
 	 * Complementary operation to <code>decodeUnsigned</code>.
 	 * @see #decodeUnsigned(byte)
 	 * @see #decodeUnsigned(short)
+	 * @param positive int to encode
 	 * @return the unsigned 16-bit representation of the argument
 	 */
 	protected static short encodeUnsigned(int positive) {
