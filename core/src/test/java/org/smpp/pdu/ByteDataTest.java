@@ -6,48 +6,196 @@ import static org.smpp.pdu.Matchers.*;
 
 import java.io.UnsupportedEncodingException;
 
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.powermock.reflect.Whitebox;
 
 public class ByteDataTest {
 	private static Class<?> CLAZZ = ByteData.class;
 
-	@Rule
-	public ExpectedException thrown = ExpectedException.none();
-
 	@Test
-	public void testCheckStringEqualZero() throws Exception {
+	public void testStringEqualZero() throws Exception {
 		checkString("", 0);
 	}
 	@Test
-	public void testCheckStringNonZero() throws Exception {
+	public void testStringNonZero() throws Exception {
 		checkString(" ", 1);
 	}
 	@Test
-	public void testCheckStringOneZero() throws Exception {
-		thrown.expect(stringLengthException(0, 0, 1));
-		checkString(" ", 0);
-	}
-
-	@Test
-	public void testCheckStringUTF16() throws Exception {
-		thrown.expect(stringLengthException(0, 1, 4));
-		checkString(" ", 1, "UTF-16");
+	public void testStringOneZero() throws Exception {
+		assertTrue(stringLengthException(0, 0, 1).matches(
+				assertThrows(WrongLengthOfStringException.class, 
+						() -> { checkString(" ", 0); } )));
 	}
 	@Test
-	public void testCheckStringInvalidEncoding() throws Exception {
-		thrown.expect(UnsupportedEncodingException.class);
-		checkString(" ", 1, "UTF-17");
+	public void testStringLowerBound() throws Exception {
+		checkString(" ", 1, 2);
 	}
-
 	@Test
-	public void testCheckCString() throws Exception {
-		thrown.expect(stringLengthException(0, 0, 1));
-		invokeMethod(CLAZZ, "checkCString", (String) null, 0, 0);
+	public void testStringLower0Bound() throws Exception {
+		checkString("", 0, 1);
+	}
+	@Test
+	public void testStringUpperBound() throws Exception {
+		checkString("AB", 1, 2);
+	}
+	@Test
+	public void testStringUpper0Bound() throws Exception {
+		checkString("", 0, 0);
+	}
+	@Test
+	public void testStringBelow1Bound() throws Exception {
+		assertTrue(stringLengthException(1, 2, 0).matches(
+				assertThrows(WrongLengthOfStringException.class, 
+						() -> { checkString("", 1, 2); } )));
+	}
+	@Test
+	public void testStringBelow2Bound() throws Exception {
+		assertTrue(stringLengthException(2, 3, 1).matches(
+				assertThrows(WrongLengthOfStringException.class, 
+						() -> { checkString("A", 2, 3); } )));
+	}
+	@Test
+	public void testStringAboveBound() throws Exception {
+		assertTrue(stringLengthException(1, 2, 3).matches(
+				assertThrows(WrongLengthOfStringException.class, 
+						() -> { checkString("ABC", 1, 2); } )));
+	}
+	@Test
+	public void testStringLenLowerBound() throws Exception {
+		checkString(1, 1, 2);
+	}
+	@Test
+	public void testStringLenLower0Bound() throws Exception {
+		checkString(0, 0, 1);
+	}
+	@Test
+	public void testStringLenUpperBound() throws Exception {
+		checkString(1, 2, 2);
+	}
+	@Test
+	public void testLenUpper0Bound() throws Exception {
+		checkString(0, 0, 0);
+	}
+	@Test
+	public void testStringLenBelow1Bound() throws Exception {
+		assertTrue(stringLengthException(1, 2, 0).matches(
+				assertThrows(WrongLengthOfStringException.class, 
+						() -> { checkString(1, 0, 2); } )));
+	}
+	@Test
+	public void testStringLenBelow2Bound() throws Exception {
+		assertTrue(stringLengthException(2, 3, 1).matches(
+				assertThrows(WrongLengthOfStringException.class, 
+						() -> { checkString(2, 1, 3); } )));
+	}
+	@Test
+	public void testStringLenAboveBound() throws Exception {
+		assertTrue(stringLengthException(1, 2, 3).matches(
+				assertThrows(WrongLengthOfStringException.class, 
+						() -> { checkString(1, 3, 2); } )));
+	}
+	@Test
+	public void testStringUTF16() throws Exception {
+		assertTrue(stringLengthException(0, 1, 4).matches(
+				assertThrows(WrongLengthOfStringException.class, 
+						() -> { checkString(" ", 1, "UTF-16"); })));
+	}
+	@Test
+	public void testStringInvalidEncoding() throws Exception {
+		assertThrows(UnsupportedEncodingException.class, 
+				() -> { checkString(" ", 1, "UTF-17"); });
+	}
+	
+	@Test
+	public void testNullCString() throws Exception {
+		assertTrue(stringLengthException(0, 0, 1).matches(
+				assertThrows(WrongLengthOfStringException.class,
+						() -> { checkCString((String) null, 0, 0); })));
+	}
+	@Test
+	public void testCStringEqualZero() throws Exception {
+		checkCString("", 1);
+	}
+	@Test
+	public void testCStringNonZero() throws Exception {
+		checkCString(" ", 2);
+	}
+	@Test
+	public void testCStringOneZero() throws Exception {
+		assertTrue(stringLengthException(1, 1, 2).matches(
+				assertThrows(WrongLengthOfStringException.class, 
+						() -> { checkCString(" ", 1); } )));
+	}
+	@Test
+	public void testCStringLowerBound() throws Exception {
+		checkCString(" ", 2, 3);
+	}
+	@Test
+	public void testCStringLower0Bound() throws Exception {
+		checkCString("", 1, 2);
+	}
+	@Test
+	public void testCStringUpperBound() throws Exception {
+		checkCString("AB", 2, 3);
+	}
+	@Test
+	public void testCStringUpper0Bound() throws Exception {
+		checkCString("", 1, 1);
+	}
+	@Test
+	public void testCStringBelow1Bound() throws Exception {
+		assertTrue(stringLengthException(2, 3, 1).matches(
+				assertThrows(WrongLengthOfStringException.class, 
+						() -> { checkCString("", 2, 3); } )));
+	}
+	@Test
+	public void testCStringBelow2Bound() throws Exception {
+		assertTrue(stringLengthException(3, 4, 2).matches(
+				assertThrows(WrongLengthOfStringException.class, 
+						() -> { checkCString("A", 3, 4); } )));
+	}
+	@Test
+	public void testCStringAboveBound() throws Exception {
+		assertTrue(stringLengthException(2, 3, 4).matches(
+				assertThrows(WrongLengthOfStringException.class, 
+						() -> { checkCString("ABC", 2, 3); } )));
+	}
+	@Test
+	public void testCStringLenLowerBound() throws Exception {
+		checkString(1, 1, 2);
+	}
+	@Test
+	public void testCStringLenLower0Bound() throws Exception {
+		checkString(0, 0, 1);
+	}
+	@Test
+	public void testCStringLenUpperBound() throws Exception {
+		checkString(1, 2, 2);
+	}
+	@Test
+	public void testCStringLenUpper0Bound() throws Exception {
+		checkString(0, 0, 0);
+	}
+	@Test
+	public void testCheckCStringLenBelow1Bound() throws Exception {
+		assertTrue(stringLengthException(1, 2, 0).matches(
+				assertThrows(WrongLengthOfStringException.class, 
+						() -> { checkString(1, 0, 2); } )));
+	}
+	@Test
+	public void testCheckCStringLenBelow2Bound() throws Exception {
+		assertTrue(stringLengthException(2, 3, 1).matches(
+				assertThrows(WrongLengthOfStringException.class, 
+						() -> { checkString(2, 1, 3); } )));
+	}
+	@Test
+	public void testCheckCStringLenAboveBound() throws Exception {
+		assertTrue(stringLengthException(1, 2, 3).matches(
+				assertThrows(WrongLengthOfStringException.class, 
+						() -> { checkString(1, 3, 2); } )));
 	}
 
+	
 	@Test
 	public void testCheckRange() throws Exception {
 		checkRange(0, 0, 0);
@@ -55,13 +203,15 @@ public class ByteDataTest {
 	}
 	@Test
 	public void testCheckRangeBelow() throws Exception {
-		thrown.expect(integerOutOfRange(5, 10, 1));
-		checkRange(5, 1, 10);
+		assertTrue(integerOutOfRange(5, 10, 1).matches(
+				assertThrows(IntegerOutOfRangeException.class,
+						() -> { checkRange(5, 1, 10); })));
 	}
 	@Test
 	public void testCheckRangeAbove() throws Exception {
-		thrown.expect(integerOutOfRange(5, 10, 11));
-		checkRange(5, 11, 10);
+		assertTrue(integerOutOfRange(5, 10, 11).matches(
+				assertThrows(IntegerOutOfRangeException.class,
+						() -> { checkRange(5, 11, 10); })));
 	}
 
 	@Test
@@ -86,8 +236,59 @@ public class ByteDataTest {
 		assertEquals((short) 32768, encodeUnsigned((int) 32768));
 	}
 
-	// FIXME: plenty more tests to write here
-
+	@Test
+	public void testNullDate() throws Exception {
+		checkDate(null);
+	}
+	@Test
+	public void testEmptyDate() throws Exception {
+		checkDate("");
+	}
+	@Test
+	public void testOneShortDate() throws Exception {
+		assertThrows(WrongDateFormatException.class, 
+				() -> { checkDate("123456789012345"); });
+	}
+	@Test
+	public void testOneLongDate() throws Exception {
+		assertThrows(WrongDateFormatException.class, 
+				() -> { checkDate("12345678901234567"); });
+	}
+	@Test
+	public void testLocTimeWrongRel() throws Exception {
+		assertThrows(WrongDateFormatException.class, 
+				() -> { checkDate("000000000012345S"); });
+	}
+	@Test
+	public void testLocTimeRel() throws Exception {
+		checkDate("000000000012345R");
+	}
+	@Test
+	public void testLocTimeNegRel() throws Exception {
+		checkDate("-00000000001234R");
+	}
+	@Test
+	public void testLocTimeMinus() throws Exception {
+		checkDate("230511235901300-");
+	}
+	@Test
+	public void testLocTimePlus() throws Exception {
+		checkDate("230511235901300+");
+	}
+	@Test
+	public void testLocTimeDiffMax() throws Exception {
+		checkDate("230511235901348+");
+	}
+	public void testLocTimeWrongSeconds() throws Exception {
+		assertThrows(WrongDateFormatException.class, 
+				() -> { checkDate("230511235960000-"); });
+	}
+	@Test
+	public void testLocTimeDiffTooHigh() throws Exception {
+		assertThrows(WrongDateFormatException.class, 
+				() -> { checkDate("230511235901349-"); });
+	}
+	
 	// maps to ByteData static methods
 
 	private void checkString(String string, int max) throws Exception {
@@ -99,28 +300,21 @@ public class ByteDataTest {
 	private void checkString(String string, int max, String encoding) throws Exception {
 		invokeMethod(CLAZZ, "checkString", string, max, encoding);
 	}
-	private void checkString(String string, int min, int max, String encoding) throws Exception {
-		invokeMethod(CLAZZ, "checkString", string, min, max, encoding);
-	}
 	private void checkString(int min, int length, int max) throws Exception {
 		invokeMethod(CLAZZ, "checkString", min, length, max);
 	}
-
 	private void checkCString(String string, int max) throws Exception {
 		invokeMethod(CLAZZ, "checkCString", string, max);
 	}
 	private void checkCString(String string, int min, int max) throws Exception {
 		invokeMethod(CLAZZ, "checkCString", string, min, max);
 	}
-
 	private void checkDate(String string) throws Exception {
 		invokeMethod(CLAZZ, "checkDate", string);
 	}
-
 	private void checkRange(int min, int value, int max) throws Exception {
 		invokeMethod(CLAZZ, "checkRange", min, value, max);
 	}
-
 	private short decodeUnsigned(byte bite) throws Exception {
 		return Whitebox.<Short> invokeMethod(CLAZZ, "decodeUnsigned", bite);
 	}

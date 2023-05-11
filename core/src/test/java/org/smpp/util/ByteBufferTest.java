@@ -6,9 +6,7 @@ import static org.smpp.util.NotEnoughDataInByteBufferExceptionMatcher.*;
 import java.io.UnsupportedEncodingException;
 
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.smpp.Data;
 
 public class ByteBufferTest {
@@ -25,9 +23,6 @@ public class ByteBufferTest {
 	private ByteBuffer buffer;
 	private byte t_bite = (byte) 0x1f;
 	private short t_short = (short) 666;
-
-	@Rule
-	public ExpectedException thrown = ExpectedException.none();
 
 	@Before
 	public void setup() {
@@ -86,8 +81,8 @@ public class ByteBufferTest {
 
 	@Test
 	public void testAppendCStringWithInvalidEncodingThrowsException() throws Exception {
-		thrown.expect(UnsupportedEncodingException.class);
-		buffer.appendCString(ABC, INVALID);
+		assertThrows(UnsupportedEncodingException.class, 
+				() -> { buffer.appendCString(ABC, INVALID); });
 	}
 
 	@Test
@@ -123,14 +118,14 @@ public class ByteBufferTest {
 
 	@Test
 	public void testAppendStringWithExcessiveCountThrowsException() throws Exception {
-		thrown.expect(StringIndexOutOfBoundsException.class);
-		buffer.appendString(ABC, 4);
+		assertThrows(StringIndexOutOfBoundsException.class,
+				() -> { buffer.appendString(ABC, 4); });
 	}
 
 	@Test
 	public void testAppenStringWithCountAndInvalidEncodingThrowsException() throws Exception {
-		thrown.expect(UnsupportedEncodingException.class);
-		buffer.appendString(ABC, 1, INVALID);
+		assertThrows(UnsupportedEncodingException.class,
+				() -> { buffer.appendString(ABC, 1, INVALID); });
 	}
 
 	@Test
@@ -165,18 +160,16 @@ public class ByteBufferTest {
 
 	@Test
 	public void testAppendByteBufferWithNullThrowsException() throws Exception {
-		thrown.expect(NotEnoughDataInByteBufferException.class);
-		thrown.expect(notEnoughData(1234, 0));
-
-		buffer.appendBytes((ByteBuffer) null, 1234);
+		assertTrue(notEnoughData(1234, 0).matches(
+				assertThrows(NotEnoughDataInByteBufferException.class,
+						() -> { buffer.appendBytes((ByteBuffer) null, 1234); })));
 	}
 
 	@Test
 	public void testAppendByteBufferWithExcessiveCountThrowsException() throws Exception {
-		thrown.expect(NotEnoughDataInByteBufferException.class);
-		thrown.expect(notEnoughData(2, 1));
-
-		buffer.appendBytes(bufferOf(t_bite), 2);
+		assertTrue(notEnoughData(2, 1).matches(
+				assertThrows(NotEnoughDataInByteBufferException.class,
+						() -> { buffer.appendBytes(bufferOf(t_bite), 2); })));
 	}
 
 	@Test
@@ -219,27 +212,27 @@ public class ByteBufferTest {
 
 	@Test
 	public void testReadBytesWithExcessiveCountThrowsException() throws Exception {
-		thrown.expect(NotEnoughDataInByteBufferException.class);
-		thrown.expect(notEnoughData(1, 0));
-
-		buffer.readBytes(1);
+		assertTrue(notEnoughData(1, 0).matches(
+				assertThrows(NotEnoughDataInByteBufferException.class, () -> {
+					buffer.readBytes(1);
+				})));
 	}
 
 	@Test
 	public void testRemoveByteFromNullThrowsException() throws Exception {
-		thrown.expect(NotEnoughDataInByteBufferException.class);
-		thrown.expect(notEnoughData(1, 0));
-
-		buffer.removeByte();
+		assertTrue(notEnoughData(1, 0).matches(
+				assertThrows(NotEnoughDataInByteBufferException.class, () -> {
+					buffer.removeByte();
+				})));
 	}
 
 	@Test
 	public void testRemoveByteFromEmptyThrowsException() throws Exception {
-		thrown.expect(NotEnoughDataInByteBufferException.class);
-		thrown.expect(notEnoughData(1, 0));
-
-		buffer = new ByteBuffer(new byte[] { });
-		buffer.removeByte();
+		assertTrue(notEnoughData(1, 0).matches(
+				assertThrows(NotEnoughDataInByteBufferException.class, () -> {
+					buffer = new ByteBuffer(new byte[] { });
+					buffer.removeByte();
+				})));
 	}
 
 	@Test
@@ -265,19 +258,19 @@ public class ByteBufferTest {
 
 	@Test
 	public void testRemoveShortFromNullThrowsException() throws Exception {
-		thrown.expect(NotEnoughDataInByteBufferException.class);
-		thrown.expect(notEnoughData(2, 0));
-
-		buffer.removeShort();
+		assertTrue(notEnoughData(2, 0).matches(
+				assertThrows(NotEnoughDataInByteBufferException.class, () -> {
+					buffer.removeShort();
+				})));
 	}
 
 	@Test
 	public void testRemoveShortFromSmallBufferThrowsException() throws Exception {
-		thrown.expect(NotEnoughDataInByteBufferException.class);
-		thrown.expect(notEnoughData(2, 1));
-
-		buffer = bufferOf(NULL);
-		buffer.removeShort();
+		assertTrue(notEnoughData(2, 1).matches(
+				assertThrows(NotEnoughDataInByteBufferException.class, () -> {
+					buffer = bufferOf(NULL);
+					buffer.removeShort();
+				})));
 	}
 
 	@Test
@@ -296,10 +289,10 @@ public class ByteBufferTest {
 
 	@Test
 	public void testReadIntFromNullThrowsException() throws Exception {
-		thrown.expect(NotEnoughDataInByteBufferException.class);
-		thrown.expect(notEnoughData(4, 0));
-
-		buffer.readInt();
+		assertTrue(notEnoughData(4, 0).matches(
+				assertThrows(NotEnoughDataInByteBufferException.class, () -> {
+					buffer.readInt();
+				})));
 	}
 
 	@Test
@@ -318,28 +311,28 @@ public class ByteBufferTest {
 
 	@Test
 	public void testReadIntFromSmallBufferThrowsException() throws Exception {
-		thrown.expect(NotEnoughDataInByteBufferException.class);
-		thrown.expect(notEnoughData(4, 2));
-
-		buffer = bufferOf(NULL, NULL);
-		buffer.readInt();
+		assertTrue(notEnoughData(4, 2).matches(
+				assertThrows(NotEnoughDataInByteBufferException.class, () -> {
+					buffer = bufferOf(NULL, NULL);
+					buffer.readInt();
+				})));
 	}
 
 	@Test
 	public void testRemoveIntFromNullThrowsException() throws Exception {
-		thrown.expect(NotEnoughDataInByteBufferException.class);
-		thrown.expect(notEnoughData(4, 0));
-
-		buffer.removeInt();
+		assertTrue(notEnoughData(4, 0).matches(
+				assertThrows(NotEnoughDataInByteBufferException.class, () -> {
+					buffer.removeInt();
+				})));
 	}
 
 	@Test
 	public void testRemoveIntFromSmallBufferThrowsException() throws Exception {
-		thrown.expect(NotEnoughDataInByteBufferException.class);
-		thrown.expect(notEnoughData(4, 2));
-
-		buffer = bufferOf(NULL, NULL);
-		buffer.removeInt();
+		assertTrue(notEnoughData(4, 2).matches(
+				assertThrows(NotEnoughDataInByteBufferException.class, () -> {
+					buffer = bufferOf(NULL, NULL);
+					buffer.removeInt();					
+				})));
 	}
 
 	@Test
@@ -358,35 +351,35 @@ public class ByteBufferTest {
 
 	@Test
 	public void testRemoveCStringFromNullThrowsException() throws Exception {
-		thrown.expect(NotEnoughDataInByteBufferException.class);
-		thrown.expect(notEnoughData(1, 0));
-
-		buffer.removeCString();
+		assertTrue(notEnoughData(1, 0).matches(
+				assertThrows(NotEnoughDataInByteBufferException.class, () -> {
+					buffer.removeCString();
+				})));
 	}
 
 	@Test
 	public void testRemoveCStringFromEmptyThrowsException() throws Exception {
-		thrown.expect(NotEnoughDataInByteBufferException.class);
-		thrown.expect(notEnoughData(1, 0));
-
-		buffer = new ByteBuffer(new byte[] {});
-		buffer.removeCString();
+		assertTrue(notEnoughData(1, 0).matches(
+				assertThrows(NotEnoughDataInByteBufferException.class, () -> {
+					buffer = new ByteBuffer(new byte[] {});
+					buffer.removeCString();
+				})));
 	}
 
 	@Test
 	public void testRemoveCStringWithSingleNonTerminatorThrowsException() throws Exception {
-		thrown.expect(TerminatingZeroNotFoundException.class);
-
-		buffer = bufferOf((byte) 0x01);
-		buffer.removeCString();
+		assertThrows(TerminatingZeroNotFoundException.class, () -> {
+			buffer = bufferOf((byte) 0x01);
+			buffer.removeCString();
+		});
 	}
 
 	@Test
 	public void testRemoveCStringWithMultipleNonTerminatorThrowsException() throws Exception {
-		thrown.expect(TerminatingZeroNotFoundException.class);
-
-		buffer = bufferOf((byte) 0x01, (byte) 0x01, (byte) 0x01, (byte) 0x01);
-		buffer.removeCString();
+		assertThrows(TerminatingZeroNotFoundException.class, () -> {
+			buffer = bufferOf((byte) 0x01, (byte) 0x01, (byte) 0x01, (byte) 0x01);
+			buffer.removeCString();
+		});
 	}
 
 	@Test
@@ -429,10 +422,10 @@ public class ByteBufferTest {
 
 	@Test
 	public void testRemoveStringWithNullThrowsException() throws Exception {
-		thrown.expect(NotEnoughDataInByteBufferException.class);
-		thrown.expect(notEnoughData(1, 0));
-
-		buffer.removeString(1, ASCII);
+		assertTrue(notEnoughData(1, 0).matches(
+				assertThrows(NotEnoughDataInByteBufferException.class, () -> {
+					buffer.removeString(1, ASCII);
+				})));
 	}
 
 	@Test
@@ -442,10 +435,10 @@ public class ByteBufferTest {
 
 	@Test
 	public void testRemoveStringWithInvalidEncodingThrowsException() throws Exception {
-		thrown.expect(UnsupportedEncodingException.class);
-
-		buffer = bufferOf(A, B, C);
-		buffer.removeString(3, INVALID);
+		assertThrows(UnsupportedEncodingException.class, () -> {
+			buffer = bufferOf(A, B, C);
+			buffer.removeString(3, INVALID);
+		});
 	}
 
 	@Test
@@ -469,19 +462,19 @@ public class ByteBufferTest {
 
 	@Test
 	public void testRemoveBufferFromNullThrowsException() throws Exception {
-		thrown.expect(NotEnoughDataInByteBufferException.class);
-		thrown.expect(notEnoughData(1, 0));
-
-		buffer.readBytes(1);
+		assertTrue(notEnoughData(1, 0).matches(
+				assertThrows(NotEnoughDataInByteBufferException.class, () -> {
+					buffer.readBytes(1);
+				})));
 	}
 
 	@Test
 	public void testRemoveBufferWithExcessiveSizeThrowsException() throws Exception {
-		thrown.expect(NotEnoughDataInByteBufferException.class);
-		thrown.expect(notEnoughData(10, 1));
-
-		buffer = bufferOf(NULL);
-		buffer.removeBuffer(10);
+		assertTrue(notEnoughData(10, 1).matches(
+				assertThrows(NotEnoughDataInByteBufferException.class, () -> {
+					buffer = bufferOf(NULL);
+					buffer.removeBuffer(10);
+				})));
 	}
 
 	@Test

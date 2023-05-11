@@ -3,16 +3,11 @@ package org.smpp.util;
 import static org.junit.Assert.*;
 
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 public class QueueTest {
 
 	private Queue queue;
-
-	@Rule
-	public ExpectedException thrown = ExpectedException.none();
 
 	@Before
 	public void setup() {
@@ -32,12 +27,12 @@ public class QueueTest {
 
 	@Test
 	public void testConstructorLimitsSize() throws IndexOutOfBoundsException {
-		thrown.expect(IndexOutOfBoundsException.class);
-
-		queue = new Queue(10);
-		for (int i = 0; i < 11; i++) {
-			queue.enqueue(new Object());
-		}
+		assertThrows(IndexOutOfBoundsException.class, () -> {
+			queue = new Queue(10);
+			for (int i = 0; i < 11; i++) {
+				queue.enqueue(new Object());
+			}
+		});
 	}
 
 	@Test
