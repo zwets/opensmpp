@@ -177,8 +177,8 @@ public class SMPPTest {
 	}
 
 	/**
-	 * Sets global SMPP library debug and event objects.
 	 * Runs the application.
+	 * @param args ignored
 	 * @see SmppObject#setDebug(Debug)
 	 * @see SmppObject#setEvent(Event)
 	 */

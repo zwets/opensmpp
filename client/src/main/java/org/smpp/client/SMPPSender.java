@@ -127,8 +127,10 @@ public class SMPPSender {
 
 	/**
 	 * Command-line sender
+         * @param args the command-line arguments
 	 */
-	public static void main(String args[]) {
+	public static void main(String...args) {
+
 		// Parse the command line
 		String sender = null;
 		byte senderTon = (byte) 0;

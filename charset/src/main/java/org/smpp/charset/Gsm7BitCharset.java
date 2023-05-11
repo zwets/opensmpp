@@ -21,10 +21,13 @@ public class Gsm7BitCharset extends Charset {
 
 	private boolean debug = false;
 
-	// HashMap's used for encoding and decoding
+	/** Hashmap for encoding character in string to byte */
 	protected static HashMap<String, Byte> defaultEncodeMap = new HashMap<String, Byte>();
+	/** Hashmap for decoding byte to character in string */
 	protected static HashMap<Byte, String> defaultDecodeMap = new HashMap<Byte, String>();
+	/** Hashmap for encoding extended character in string to byte */
 	protected static HashMap<String, Byte> extEncodeMap = new HashMap<String, Byte>();
+	/** Hashmap for decoding byte to extended character in string */
 	protected static HashMap<Byte, String> extDecodeMap = new HashMap<Byte, String>();
 
 	// Data to populate the hashmaps with
@@ -198,6 +201,8 @@ public class Gsm7BitCharset extends Charset {
 	 * Constructor for the Gsm7Bit charset.  Call the superclass
 	 * constructor to pass along the name(s) we'll be known by.
 	 * Then save a reference to the delegate Charset.
+	 * @param canonical the name we will be known by
+	 * @param aliases other names we will be known by
 	 */
 	protected Gsm7BitCharset(String canonical, String[] aliases) {
 		super(canonical, aliases);

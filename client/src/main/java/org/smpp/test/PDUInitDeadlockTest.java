@@ -87,7 +87,10 @@ public class PDUInitDeadlockTest {
 		System.exit(0);		
 	}
 
-	public static void main(String[] args) {
+	/** Run the test standalone
+	 * @param args ignored
+	 */
+	public static void main(String... args) {
 		new PDUInitDeadlockTest();
 	}
 	

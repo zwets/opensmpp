@@ -70,6 +70,8 @@ public class Table {
 	 * @see #getParser()
 	 * @see TableParser
 	 * @see BasicTableParser
+         * @throws FileNotFoundException when fileName does not exist
+         * @throws IOException when fileName cannot be read
 	 */
 	public Table(String fileName) throws FileNotFoundException, IOException {
 		this.fileName = fileName;
@@ -202,6 +204,8 @@ public class Table {
 	 * @see #getParser()
 	 * @see BasicTableParser
 	 * @see TableParser
+         * @throws FileNotFoundException when fileName does not exist
+         * @throws IOException when fileName cannot be read
 	 */
 	public synchronized void read(String fileName) throws FileNotFoundException, IOException {
 		FileInputStream is = new FileInputStream(fileName);
@@ -219,6 +223,7 @@ public class Table {
 	 * @see #getParser()
 	 * @see BasicTableParser
 	 * @see TableParser
+         * @throws IOException when is cannot be read
 	 */
 	public synchronized void read(InputStream is) throws IOException {
 		TableParser parser = getParser();
@@ -229,6 +234,7 @@ public class Table {
 	 * Re-reads the table from disk file as set up by constructor.
 	 * @see #Table(String)
 	 * @see #read(String)
+         * @throws IOException when the file cannot be re-read
 	 */
 	public synchronized void reload() throws IOException {
 		read(fileName);
@@ -244,6 +250,8 @@ public class Table {
 	 * @see #getParser()
 	 * @see BasicTableParser
 	 * @see TableParser
+         * @throws FileNotFoundException when fileName poses a problem
+         * @throws IOException when fileName cannot be written
 	 */
 	public synchronized void write(String fileName) throws FileNotFoundException, IOException {
 		FileOutputStream os = new FileOutputStream(fileName);
@@ -261,6 +269,7 @@ public class Table {
 	 * @see #getParser()
 	 * @see BasicTableParser
 	 * @see TableParser
+         * @throws IOException when os cannot be written
 	 */
 	public synchronized void write(OutputStream os) throws IOException {
 		TableParser parser = getParser();
